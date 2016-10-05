@@ -13,7 +13,6 @@ class Journey
 
   def add_journey
     @journey.merge!({entry_station: @entry_station, exit_station: @exit_station})
-    penalty_fare?
     reset_stations
     @journey
   end
@@ -26,15 +25,4 @@ class Journey
     @entry_station = nil
     @exit_station = nil
   end
-
-  def penalty_fare?
-    if in_journey?
-      true
-    else
-      false
-    end
-  end
-
-
-
 end

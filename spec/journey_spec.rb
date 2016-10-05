@@ -6,8 +6,8 @@ describe Journey do
   subject(:journey) {described_class.new(:entry_station)}
   subject(:nil_test) {described_class.new(:entry_station)}
   let(:card) { Oystercard.new }
-  let(:entry_station) { double(:station) }
-  let(:exit_station) { double(:station) }
+  let(:entry_station) { double(:station, :zone=>1) }
+  let(:exit_station) { double(:station, :zone=>2) }
 
   describe 'initialization' do
     it 'will set #in_journey? to true' do
@@ -20,7 +20,7 @@ describe Journey do
 
    end
 
-   describe 'creating one journey' do
+   describe 'adding one journey to history' do
     let(:journey) { {entry_station: entry_station, exit_station: exit_station} }
     before do
       card.top_up(Oystercard::MAXIMUM_BALANCE)
@@ -46,24 +46,4 @@ describe Journey do
       expect(subject.exit_station).to be nil
     end
    end
-
-  describe '#penalty_fare?' do
-    before do
-      card.top_up(Oystercard::MAXIMUM_BALANCE)
-      card.touch_in(entry_station)
-    end
-
-    it 'should deduct MINIMUM_FARE if user touches in/out correctly' do
-       card.touch_out(exit_station)
-       expect(subject.penalty_fare?).to be true
-    end
-
-    it 'should deuct penalty fare if user does not touch out' do
-      card.touch_out(exit_station)
-      card.touch_out(exit_station)
-      expect(subject.penalty_fare?).to be false
-    end
-  end
-
-
-end
+ end
