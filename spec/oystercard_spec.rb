@@ -62,10 +62,10 @@ describe Oystercard do
       it 'will reduce balance by minimum fare' do
         expect {subject.touch_out(exit_station)}.to change {subject.balance}.by(-described_class::MINIMUM_FARE)
       end
-      it 'will store the entry and exit stations' do
-        subject.touch_out(exit_station)
-        expect(subject.exit_station).to eq exit_station
-      end
+    #  it 'will store the entry and exit stations' do
+    #    subject.touch_out(exit_station)
+    #    expect(subject.exit_station).to eq exit_station
+    #  end
     end
   end
 
