@@ -2,6 +2,9 @@ require 'oystercard'
 
 describe Oystercard do
   subject(:oystercard) {described_class.new}
+  let(:entry_station) { double(:entry_station) }
+  let(:exit_station) { double(:exit_station) }
+  let(:journey) { {entry_station: entry_station, exit_station: exit_station} }
 
   describe 'initialization' do
     it 'has a default balance of 0' do
@@ -29,7 +32,7 @@ describe Oystercard do
   end
 
   it 'will raise error if balance is less than minimum fare' do
-    expect{ subject.touch_in(:entry_station) }.to raise_error "Insufficient funds"
+    expect{ subject.touch_in(entry_station) }.to raise_error "Insufficient funds"
   end
 
   describe '#in_journey?' do
@@ -41,37 +44,43 @@ describe Oystercard do
   context 'using a card' do
     before do
       subject.top_up(described_class::MINIMUM_BALANCE)
-      subject.touch_in(:entry_station)
+      subject.touch_in(entry_station)
     end
     describe '#touch_in' do
       it 'will set #in_journey? to true' do
         expect(subject.in_journey?).to eq true
       end
       it "will set station to entry station" do
-        expect(subject.entry_station).to eq :entry_station
+        expect(subject.entry_station).to eq entry_station
       end
     end
     describe '#touch_out' do
       it 'will set #in_journey? to false' do
-        subject.touch_out(:exit_station)
+        subject.touch_out(exit_station)
         expect(subject.in_journey?).to eq false
       end
       it 'will reduce balance by minimum fare' do
-        expect {subject.touch_out(:exit_station)}.to change {subject.balance}.by(-described_class::MINIMUM_FARE)
+        expect {subject.touch_out(exit_station)}.to change {subject.balance}.by(-described_class::MINIMUM_FARE)
+      end
+      it 'will store the entry and exit stations' do
+        subject.touch_out(exit_station)
+        expect(subject.exit_station).to eq exit_station
       end
     end
   end
 
-  # describe 'creating one journey' do
-  #   subject.top_up(described_class::MINIMUM_BALANCE)
-  #   subject.touch_in(:entry_station)
-  #   subject.touch_out(:exit_station)
-  #   expect(subject.journeys).to eq [{entry_station: :entry_station, exit_station: :exit_station}]
-  # end
+  describe 'creating one journey' do
+    it 'will create one journey' do
+      subject.top_up(described_class::MINIMUM_BALANCE)
+      subject.touch_in(entry_station)
+      subject.touch_out(exit_station)
+      expect(subject.journeys).to include journey
+    end
+  end
 
   describe '#add_journey' do
     it 'will add the journey to the journeys list' do
-      expect(subject.add_journey(:entry_station, :exit_station)).to eq @journeys
+      expect(subject.add_journey(entry_station, exit_station)).to eq @journeys
     end
     it 'will reset the entry station on exit' do
       expect(subject.entry_station).to eq nil
