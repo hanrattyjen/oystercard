@@ -35,12 +35,6 @@ describe Oystercard do
     expect{ subject.touch_in(entry_station) }.to raise_error "Insufficient funds"
   end
 
-  describe '#in_journey?' do
-    it 'will be initially set to false' do
-      expect(subject.in_journey?).to eq false
-    end
-  end
-
   context 'using a card' do
     before do
       subject.top_up(described_class::MINIMUM_BALANCE)
@@ -69,29 +63,6 @@ describe Oystercard do
     end
   end
 
-  describe 'creating one journey' do
-    it 'will create one journey' do
-      subject.top_up(described_class::MINIMUM_BALANCE)
-      subject.touch_in(entry_station)
-      subject.touch_out(exit_station)
-      expect(subject.journeys).to include journey
-    end
-  end
-
-  describe '#add_journey' do
-    it 'will add the journey to the journeys list' do
-      expect(subject.add_journey(entry_station, exit_station)).to eq @journeys
-    end
-    it 'will reset the entry station on exit' do
-      expect(subject.entry_station).to eq nil
-    end
-    it 'will reset the exit station on exit' do
-      expect(subject.exit_station).to eq nil
-    end
-    it 'will create a hash of the current journey' do
-      #
-    end
-  end
 end
 
   # context 'creating a journey' do
