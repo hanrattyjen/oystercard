@@ -12,7 +12,7 @@ class Oystercard
 
   def initialize(balance = 0)
     @balance = balance
-    @journeys = []
+    @journeys = Journey.new(:Journey)
     @user_touch_in = false
   end
 

@@ -56,17 +56,17 @@ describe Oystercard do
   end
 
   context 'incorrect card usage' do
-    let(:fare) { described_class::PENALTY_FARE + described_class::MINIMUM_FARE }
+    let(:penalty_fare) { described_class::PENALTY_FARE + described_class::MINIMUM_FARE }
     before do
       subject.top_up(described_class::MINIMUM_BALANCE)
     end
-    it 'will deduct a penalty if user touches in twice' do
+    it 'will deduct a penalty if user fails to touch out' do
       subject.touch_in(entry_station)
-      expect {subject.touch_in(entry_station)}.to change {subject.balance}.by(-fare)
+      expect {subject.touch_in(entry_station)}.to change {subject.balance}.by(-penalty_fare)
     end
-    it 'will deduct a penalty if user touches out twice' do
+    it 'will charge a penalty if user fails to touch in' do
       subject.touch_out(exit_station)
-      expect {subject.touch_out(exit_station)}.to change {subject.balance}.by(-fare)
+      expect {subject.touch_out(exit_station)}.to change {subject.balance}.by(-penalty_fare)
     end
   end
 end
