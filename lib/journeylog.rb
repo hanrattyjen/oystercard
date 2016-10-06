@@ -2,7 +2,8 @@ require 'oystercard'
 
 class JourneyLog
 
-  attr_accessor :journeys, :current_journey
+	attr_reader :journeys
+  attr_accessor :current_journey
 
   def initialize(journey_class)
     @journey_class = journey_class
@@ -12,11 +13,20 @@ class JourneyLog
 
   def start(station)
   	@current_journey = @journey_class.new(station)
-  	@journeys << @current_journey
   end
 
   def finish(station)
   	@current_journey.exit_station = station
+  	@current_journey.fare = @current_journey.calculate_fare 
+  	update_log
+  end
+
+  def journeys
+  	@journeys
+  end
+
+  def update_log
+  	@journeys << @current_journey
   end
 
   private
