@@ -2,7 +2,8 @@ require 'journeylog'
 
 describe JourneyLog do
 
-  let(:journeylog) { described_class.new(:journey_class) }
+  subject(:journeylog) { described_class.new(Journey) }
+  let(:station) { double(:station, :zone => 1) }
 
   describe 'initialization' do
     it 'will not contain any journeys in its log' do
@@ -11,7 +12,20 @@ describe JourneyLog do
   end
 
   it 'will store one journey in its history' do
-    expect(subject.journeys). to eq journeys
+  	initial_count = subject.journeys.count
+  	subject.start(station)
+    expect(subject.journeys.count).to be > initial_count
   end
+
+  describe '#finish' do
+
+  	it 'adds an exit station to the current journey' do
+  		subject.start(station)
+  		subject.finish(station)
+  		expect(subject.current_journey.exit_station).to eq station
+  	end
+
+  end
+
 
 end

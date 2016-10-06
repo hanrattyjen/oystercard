@@ -5,9 +5,9 @@ class Journey
 
   attr_accessor :exit_station, :entry_station, :journey
 
-  def initialize(entry_station = nil)
+  def initialize(entry_station = nil, exit_station = nil)
     @entry_station = entry_station
-    @exit_station = nil
+    @exit_station = exit_station
     @journey = {}
   end
 
