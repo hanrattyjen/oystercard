@@ -4,7 +4,7 @@ describe Oystercard do
   subject(:oystercard) {described_class.new}
   let(:entry_station) { double(:entry_station, :zone=>1) }
   let(:exit_station) { double(:exit_station, :zone=>2) }
-  let(:journey) { {entry_station: entry_station, exit_station: exit_station} }
+  let(:journey) { {entry_station: entry_station, exit_station: exit_station, fare: fare} }
 
   describe 'initialization' do
     it 'has a default balance of 0' do
@@ -12,9 +12,6 @@ describe Oystercard do
     end
     it 'does not have a set starting station' do
       expect(subject.entry_station).to eq nil
-    end
-    it 'will contain zero journeys' do
-      expect(subject.journeys). to be_empty
     end
   end
 
@@ -41,16 +38,17 @@ describe Oystercard do
       subject.touch_in(entry_station)
     end
     describe '#touch_in' do
-      it 'will set #in_journey? to true' do
-        expect(subject.touch_in(entry_station)).to eq true
+      it 'will set #in_current_journey? to true' do
+        expect(subject).to be_in_current_journey
       end
     end
     describe '#touch_out' do
-      it 'will set #in_journey? to false' do
-        expect(subject.touch_out(exit_station)).to eq false
+      it 'will set #in_current_journey? to false' do
+        subject.touch_out(exit_station)
+        expect(subject).to be_in_current_journey
       end
       it 'a single journey will reduce balance by minimum fare' do
-        expect {subject.touch_out(exit_station)}.to change {subject.balance}.by(-described_class::MINIMUM_FARE)
+        expect {subject.touch_out(exit_station)}.to change {subject.balance}.by(-fare)
       end
     end
   end

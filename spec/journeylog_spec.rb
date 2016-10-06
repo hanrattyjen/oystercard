@@ -11,7 +11,6 @@ describe JourneyLog do
     end
   end
 
-
   describe '#finish' do
 
   	it 'adds an exit station to the current journey' do
@@ -19,8 +18,6 @@ describe JourneyLog do
   		subject.finish(station)
   		expect(subject.journeys.last.exit_station).to eq station
   	end
-
-
   end
 
   describe '#update_log' do

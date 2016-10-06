@@ -28,22 +28,6 @@ describe Journey do
       card.touch_out(exit_station)
     end
 
-    it 'will create one journey' do
-      expect(card.journeys).to include journey
-    end
   end
 
-  describe '#reset_stations' do
-    before do
-      subject.reset_stations
-    end
-
-    it 'will reset the entry station' do
-      expect(subject.entry_station).to be nil
-    end
-
-    it 'will reset the exit station on exit' do
-      expect(subject.exit_station).to be nil
-    end
-   end
  end
