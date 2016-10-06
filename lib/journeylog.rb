@@ -25,7 +25,6 @@ class JourneyLog
 
   def update_log
   	@journeys << @active_journey
-    @active_journey = nil
   end
 
   private

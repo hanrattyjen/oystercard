@@ -4,10 +4,10 @@ class Journey
   MINIMUM_FARE = 1
   attr_accessor :exit_station, :entry_station, :fare
 
-  def initialize(entry_station = nil, exit_station = nil)
+  def initialize(entry_station = nil, exit_station = nil, fare = 0)
     @entry_station = entry_station
     @exit_station = exit_station
-    @fare = 0
+    @fare = fare
   end
 
   def in_journey?

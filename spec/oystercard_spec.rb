@@ -4,7 +4,7 @@ describe Oystercard do
   subject(:oystercard) {described_class.new}
   let(:entry_station) { double(:entry_station, :zone=>1) }
   let(:exit_station) { double(:exit_station, :zone=>2) }
-  let(:journey) { {entry_station: entry_station, exit_station: exit_station, fare: 1 } }
+  let(:journeylog) { double( ) }
 
   MINIMUM_FARE = 1
 
@@ -61,7 +61,7 @@ describe Oystercard do
     end
     it 'will deduct a penalty if user fails to touch out' do
       subject.touch_in(entry_station)
-      expect {subject.touch_in(entry_station)}.to change {subject.balance}.by(-journey[:fare])
+      expect {subject.touch_in(entry_station)}.to change {subject.balance}.by(-journey.fare)
     end
     it 'will charge a penalty if user fails to touch in' do
       subject.touch_out(exit_station)

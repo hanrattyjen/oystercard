@@ -36,7 +36,7 @@ class Oystercard
     end
     @journey_log.finish(exit_station)
     deduct(@journey_log.journeys.last.fare)
-    #@journey_log.active_journey.in_journey?
+    @journey_log.active_journey.in_journey?
   end
 
   def in_current_journey?
