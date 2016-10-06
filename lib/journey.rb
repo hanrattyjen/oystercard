@@ -14,6 +14,10 @@ class Journey
     !!@entry_station
   end
 
+  def penalty_fare
+    PENALTY_FARE
+  end
+
   def calculate_fare
     if @entry_station == nil || @exit_station == nil
       @fare = PENALTY_FARE

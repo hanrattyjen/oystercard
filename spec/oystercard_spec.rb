@@ -4,7 +4,9 @@ describe Oystercard do
   subject(:oystercard) {described_class.new}
   let(:entry_station) { double(:entry_station, :zone=>1) }
   let(:exit_station) { double(:exit_station, :zone=>2) }
-  let(:journey) { {entry_station: entry_station, exit_station: exit_station, fare: fare} }
+  let(:journey) { {entry_station: entry_station, exit_station: exit_station, fare: 1 } }
+
+  MINIMUM_FARE = 1
 
   describe 'initialization' do
     it 'has a default balance of 0' do
@@ -48,23 +50,22 @@ describe Oystercard do
         expect(subject).to be_in_current_journey
       end
       it 'a single journey will reduce balance by minimum fare' do
-        expect {subject.touch_out(exit_station)}.to change {subject.balance}.by(-fare)
+        expect {subject.touch_out(exit_station)}.to change {subject.balance}.by(-MINIMUM_FARE)
       end
     end
   end
 
   context 'incorrect card usage' do
-    let(:penalty_fare) { described_class::PENALTY_FARE + described_class::MINIMUM_FARE }
     before do
       subject.top_up(described_class::MINIMUM_BALANCE)
     end
     it 'will deduct a penalty if user fails to touch out' do
       subject.touch_in(entry_station)
-      expect {subject.touch_in(entry_station)}.to change {subject.balance}.by(-penalty_fare)
+      expect {subject.touch_in(entry_station)}.to change {subject.balance}.by(-journey[:fare])
     end
     it 'will charge a penalty if user fails to touch in' do
       subject.touch_out(exit_station)
-      expect {subject.touch_out(exit_station)}.to change {subject.balance}.by(-penalty_fare)
+      expect {subject.touch_out(exit_station)}.to change {subject.balance}.by(-journey.fare)
     end
   end
 end

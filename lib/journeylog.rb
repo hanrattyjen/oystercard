@@ -10,7 +10,7 @@ class JourneyLog
   end
 
   def start(station)
-  	@active_journey = @journey_class.new(station)
+    @active_journey = @journey_class.new(station)
   end
 
   def finish(station)
@@ -25,11 +25,12 @@ class JourneyLog
 
   def update_log
   	@journeys << @active_journey
+    @active_journey = nil
   end
 
   private
 
   def current_journey
-  	@active_journey || @journey_class.new
+  	@active_journey ||= @journey_class.new
   end
 end
