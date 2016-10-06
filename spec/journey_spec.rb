@@ -30,10 +30,5 @@ describe Journey do
     expect(card.journey.entry_station).to eq(station1)
   end
 
-  it "stores a whole journey in an array of hashes" do
-    card.touch_in(station1)
-    card.touch_out(station2)
-    expect(card.journey.journey_log).to match_array([in: station1, out: station2])
-  end
 
 end
