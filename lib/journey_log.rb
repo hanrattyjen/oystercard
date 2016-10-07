@@ -1,6 +1,8 @@
-require_relative 'journey'
+require_relative 'start_end'
 
 class JourneyLog
+
+  include StartEnd
 
   attr_reader :journeys, :entry_station, :exit_station
 
@@ -9,15 +11,6 @@ class JourneyLog
     @entry_station = entry_station
     @exit_station = exit_station
   end
-
-  def start(entry_station)
-    @entry_station = entry_station
-  end
-
-  def end(exit_station)
-    @exit_station = exit_station
-  end
-
 
   def record_journey
     journeys << {in: @entry_station, out: @exit_station}

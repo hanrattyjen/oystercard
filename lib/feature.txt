@@ -2,5 +2,5 @@ require './lib/oystercard.rb'
 card = Oystercard.new(10)
 station1 = Station.new("King's Cross", 1)
 station2 = Station.new("Camden St", 3)
-card.touch_in(station1)
 card.touch_out(station2)
+card.touch_out(station1)
