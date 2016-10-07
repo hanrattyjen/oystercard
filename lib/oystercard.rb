@@ -36,6 +36,8 @@ class Oystercard
     journey_log.record_journey
   end
 
+private
+
   def start_journey(station_name)
     journey.start(station_name)
     journey_log.start(station_name)
@@ -45,8 +47,6 @@ class Oystercard
     journey.end(station_name)
     journey_log.end(station_name)
   end
-
-  private
 
   def deduct(amount)
     @balance -= amount
